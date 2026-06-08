@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GraduationCap, Map, Briefcase, Compass, ChevronRight, CheckCircle2, Image as ImageIcon } from "lucide-react";
+import { GraduationCap, Map, Briefcase, Compass, ChevronRight, CheckCircle2, Image as ImageIcon, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 // Dummy Data for Intern Showcase (Point 20)
@@ -15,8 +15,15 @@ export default function ProgramsPage() {
   return (
     <div className="min-h-screen bg-white">
       
+      {/* Back Link */}
+      <div className="max-w-7xl mx-auto pt-24 px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-purple-600 transition">
+          <ArrowLeft size={16} /> Back to Home
+        </Link>
+      </div>
+
       {/* 1. PORTFOLIO PREPARATION (Point 17) */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-12">
+      <section className="pt-8 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-12">
         <motion.div 
           initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="lg:w-1/2 space-y-6"

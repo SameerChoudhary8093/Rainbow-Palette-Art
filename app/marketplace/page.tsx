@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, IndianRupee, Ruler, Palette, AlertCircle, CheckCircle2 } from "lucide-react";
+import { ShoppingCart, IndianRupee, Ruler, Palette, AlertCircle, CheckCircle2, ArrowLeft } from "lucide-react";
 import { marketplaceData, MarketplaceItem } from "@/data/marketplace";
+import Link from "next/link";
 
 export default function MarketplacePage() {
   // Payment Modal State
@@ -29,6 +30,13 @@ export default function MarketplacePage() {
   return (
     <div className="min-h-screen bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        
+        {/* Back Link */}
+        <div className="mb-6">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-purple-600 transition">
+            <ArrowLeft size={16} /> Back to Home
+          </Link>
+        </div>
         
         {/* Header */}
         <div className="text-center mb-16">

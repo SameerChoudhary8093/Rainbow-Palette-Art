@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, BookOpen, UploadCloud, CreditCard, ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 
 // Form ke 4 steps define kiye hain
 const steps = [
@@ -64,6 +65,13 @@ export default function ApplyPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
       
+      {/* Back to Home Link */}
+      <div className="max-w-3xl w-full mb-4">
+        <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-purple-600 transition">
+          <ArrowLeft size={16} /> Back to Home
+        </Link>
+      </div>
+
       {/* Header */}
       <div className="text-center mb-10 mt-10">
         <h1 className="text-4xl font-extrabold text-gray-900 mb-2">Join the Academy</h1>

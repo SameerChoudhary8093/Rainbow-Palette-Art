@@ -42,6 +42,7 @@ export default function Footer() {
               <FooterLink href="/courses" text="Our Courses" />
               <FooterLink href="/gallery" text="Student Gallery" />
               <FooterLink href="/marketplace" text="Buy Artworks" />
+              <FooterLink href="/achievements" text="Achievements & Awards" />
               <FooterLink href="/verify/RB-2024-001" text="Verify Certificate" />
             </ul>
           </div>

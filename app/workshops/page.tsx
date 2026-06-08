@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CalendarDays, Clock, User, IndianRupee, MapPin, Users, Ticket } from "lucide-react";
+import { CalendarDays, Clock, User, IndianRupee, MapPin, Users, Ticket, ArrowLeft } from "lucide-react";
 import { eventsData } from "@/data/workshops";
 import Link from "next/link";
 
@@ -14,6 +14,13 @@ export default function WorkshopsPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        
+        {/* Back Link */}
+        <div className="mb-6">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-purple-600 transition">
+            <ArrowLeft size={16} /> Back to Home
+          </Link>
+        </div>
         
         {/* Header Section */}
         <div className="text-center mb-12">

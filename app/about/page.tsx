@@ -2,15 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Award, Palette, Users, LayoutDashboard, Quote, Star, ArrowRight } from "lucide-react";
+import { Award, Palette, Users, LayoutDashboard, Quote, Star, ArrowRight, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       
+      {/* Back Link */}
+      <div className="max-w-7xl mx-auto pt-24 px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-purple-600 transition">
+          <ArrowLeft size={16} /> Back to Home
+        </Link>
+      </div>
+
       {/* 1. HERO STORY SECTION */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+      <section className="pt-8 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
         <motion.div 
           initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
           className="lg:w-1/2"

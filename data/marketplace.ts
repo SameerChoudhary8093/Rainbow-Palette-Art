@@ -34,10 +34,10 @@ export const marketplaceData: MarketplaceItem[] = [
     id: "m3",
     title: "Serenity in Blue",
     studentName: "Priya Patel",
-    medium: "Watercolor",
+    medium: "Watercolor on Paper",
     size: "12 x 16 inches",
     price: 4000,
-    isAvailable: false, // Ye sold out dikhega
+    isAvailable: false,
     image: "https://images.unsplash.com/photo-1580136579312-94651dfd596d?q=80&w=800&auto=format&fit=crop"
   },
   {
@@ -49,5 +49,26 @@ export const marketplaceData: MarketplaceItem[] = [
     price: 12000,
     isAvailable: true,
     image: "https://images.unsplash.com/photo-1594155160917-09d666795f92?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    id: "m5",
+    title: "Aura of Himalayas",
+    studentName: "Siddharth Jain",
+    medium: "Acrylic on Canvas",
+    size: "30 x 40 inches",
+    price: 22000,
+    isAvailable: true,
+    image: "https://images.unsplash.com/photo-1578301978693-85fa9c03fa75?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    id: "m6",
+    title: "Dancing Peacock",
+    studentName: "Ananya Mehta (Age 12)",
+    medium: "Kids Acrylic Painting",
+    size: "12 x 12 inches",
+    price: 2500,
+    isAvailable: true,
+    image: "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=800&auto=format&fit=crop"
   }
 ];
+

@@ -17,7 +17,7 @@ export default function Footer() {
                 alt="Rainbow Palette Logo" 
                 width={40} 
                 height={40} 
-                className="w-10 h-10 rounded-full object-cover border-2 border-gray-750 group-hover:scale-105 transition-transform"
+                className="w-10 h-10 rounded-full object-cover border-2 border-gray-700 group-hover:scale-105 transition-transform"
               />
               <span className="font-extrabold text-2xl tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 group-hover:opacity-90 transition-opacity">
                 Rainbow Palette
@@ -43,7 +43,7 @@ export default function Footer() {
               <FooterLink href="/gallery" text="Student Gallery" />
               <FooterLink href="/marketplace" text="Buy Artworks" />
               <FooterLink href="/achievements" text="Achievements & Awards" />
-              <FooterLink href="/verify/RB-2024-001" text="Verify Certificate" />
+              <FooterLink href="/verify" text="Verify Certificate" />
             </ul>
           </div>
 
@@ -52,7 +52,7 @@ export default function Footer() {
             <h3 className="text-white font-bold text-lg mb-6">Programs</h3>
             <ul className="space-y-3">
               <FooterLink href="/workshops" text="Upcoming Workshops" />
-              <FooterLink href="/workshops" text="Summer Art Camp" />
+              <FooterLink href="/summer-camp" text="Summer Art Camp" />
               <FooterLink href="/programs" text="Portfolio Preparation" />
               <FooterLink href="/programs" text="Internships" />
               <FooterLink href="/programs" text="Outdoor Painting" />

@@ -28,20 +28,21 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex space-x-6 xl:space-x-8 items-center">
-            <Link href="/about" className="text-gray-600 hover:text-purple-600 font-medium transition text-sm xl:text-base">About</Link>
-            <Link href="/courses" className="text-gray-600 hover:text-purple-600 font-medium transition text-sm xl:text-base">Courses</Link>
-            <Link href="/gallery" className="text-gray-600 hover:text-purple-600 font-medium transition text-sm xl:text-base">Gallery</Link>
-            <Link href="/marketplace" className="text-gray-600 hover:text-purple-600 font-medium transition text-sm xl:text-base">Marketplace</Link>
-            <Link href="/achievements" className="text-gray-600 hover:text-purple-600 font-medium transition text-sm xl:text-base">Achievements</Link>
-            <Link href="/workshops" className="text-gray-600 hover:text-purple-600 font-medium transition text-sm xl:text-base">Workshops</Link>
-            <Link href="/programs" className="text-gray-600 hover:text-purple-600 font-medium transition text-sm xl:text-base">Special Programs</Link>
-            <Link href="/contact" className="text-gray-600 hover:text-purple-600 font-medium transition text-sm xl:text-base">Contact</Link>
+          <div className="hidden lg:flex space-x-4 xl:space-x-6 items-center">
+            <Link href="/about" className="text-gray-600 hover:text-purple-600 font-bold transition text-xs xl:text-sm">About</Link>
+            <Link href="/courses" className="text-gray-600 hover:text-purple-600 font-bold transition text-xs xl:text-sm">Courses</Link>
+            <Link href="/gallery" className="text-gray-600 hover:text-purple-600 font-bold transition text-xs xl:text-sm">Gallery</Link>
+            <Link href="/marketplace" className="text-gray-600 hover:text-purple-600 font-bold transition text-xs xl:text-sm">Marketplace</Link>
+            <Link href="/achievements" className="text-gray-600 hover:text-purple-600 font-bold transition text-xs xl:text-sm">Achievements</Link>
+            <Link href="/workshops" className="text-gray-600 hover:text-purple-600 font-bold transition text-xs xl:text-sm">Workshops</Link>
+            <Link href="/summer-camp" className="text-gray-600 hover:text-purple-600 font-bold transition text-xs xl:text-sm">Summer Camp</Link>
+            <Link href="/programs" className="text-gray-600 hover:text-purple-600 font-bold transition text-xs xl:text-sm">Special Programs</Link>
+            <Link href="/contact" className="text-gray-600 hover:text-purple-600 font-bold transition text-xs xl:text-sm">Contact</Link>
             
             {/* CTA Button */}
             <Link 
               href="/apply" 
-              className="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-full font-medium transition-all transform hover:scale-105 text-sm xl:text-base"
+              className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-full font-bold transition-all transform hover:scale-105 text-xs xl:text-sm"
             >
               Enroll Now
             </Link>
@@ -51,7 +52,7 @@ export default function Navbar() {
           <div className="flex lg:hidden items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-600 hover:text-gray-900 focus:outline-none p-2 rounded-lg hover:bg-gray-50 transition"
+              className="text-gray-600 hover:text-gray-900 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition"
               aria-label="Toggle Menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -77,6 +78,7 @@ export default function Navbar() {
               <Link href="/marketplace" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-purple-600 font-semibold py-2 px-3 rounded-lg hover:bg-purple-50 transition">Marketplace</Link>
               <Link href="/achievements" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-purple-600 font-semibold py-2 px-3 rounded-lg hover:bg-purple-50 transition">Achievements</Link>
               <Link href="/workshops" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-purple-600 font-semibold py-2 px-3 rounded-lg hover:bg-purple-50 transition">Workshops</Link>
+              <Link href="/summer-camp" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-purple-600 font-semibold py-2 px-3 rounded-lg hover:bg-purple-50 transition">Summer Camp</Link>
               <Link href="/programs" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-purple-600 font-semibold py-2 px-3 rounded-lg hover:bg-purple-50 transition">Special Programs</Link>
               <Link href="/contact" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-purple-600 font-semibold py-2 px-3 rounded-lg hover:bg-purple-50 transition">Contact</Link>
               

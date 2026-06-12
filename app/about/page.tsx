@@ -70,6 +70,40 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* 2.5. INFRASTRUCTURE & FACILITIES (Client Point 2) */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white">
+        <div className="text-center mb-16">
+          <span className="text-purple-600 font-bold tracking-wider uppercase text-sm">Our Creative Environment</span>
+          <h2 className="text-4xl font-black text-gray-900 mt-2 mb-4">Infrastructure & Facilities</h2>
+          <p className="text-gray-500 max-w-2xl mx-auto text-base">
+            We provide a premium, naturally-lit campus equipped with professional-grade art tools, easels, and studios.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <FacilityCard 
+            title="Fine Arts & Canvas Studio" 
+            desc="Naturally lit, spacious rooms equipped with professional H-frame easels, draperies, and plaster models."
+            image="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=500"
+          />
+          <FacilityCard 
+            title="Ceramic & Clay Pottery Lab" 
+            desc="Equipped with electric pottery wheels, clay modeling desks, and high-temp kilns for baking clay art."
+            image="https://images.unsplash.com/photo-1560421683-6856ea585c78?q=80&w=500"
+          />
+          <FacilityCard 
+            title="Digital Illustration Lab" 
+            desc="Equipped with industry-standard Wacom drawing tablets and advanced editing tools for designing portfolios."
+            image="https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=500"
+          />
+          <FacilityCard 
+            title="Art Exhibition Gallery" 
+            desc="An in-house gallery space dedicated to showcasing student final-year diploma paintings to buyers."
+            image="https://images.unsplash.com/photo-1531058020387-3be344556be6?q=80&w=500"
+          />
+        </div>
+      </section>
+
       {/* 3. FOUNDER PROFILE (Client Point 2) */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="bg-purple-50 rounded-[3rem] p-8 md:p-16 flex flex-col md:flex-row items-center gap-12 border border-purple-100">
@@ -194,3 +228,23 @@ function SuccessCard({ name, achievement, story, image }: { name: string, achiev
     </motion.div>
   );
 }
+
+// 3. Facility Card Component
+function FacilityCard({ title, desc, image }: { title: string, desc: string, image: string }) {
+  return (
+    <motion.div 
+      whileHover={{ y: -5 }}
+      className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group flex flex-col justify-between"
+    >
+      <div className="h-44 overflow-hidden relative">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      </div>
+      <div className="p-5 flex-grow">
+        <h3 className="font-extrabold text-gray-900 text-lg mb-2">{title}</h3>
+        <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+      </div>
+    </motion.div>
+  );
+}
+

@@ -2,23 +2,62 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Send, CheckCircle2, Instagram, Facebook, Youtube, Palette, ArrowLeft } from "lucide-react";
+import { MapPin, Phone, Mail, Send, CheckCircle2, Instagram, Facebook, Youtube, Palette, ArrowLeft, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase"; // Supabase import kiya
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  // Fake Form Submission
-  const handleSubmit = (e: React.FormEvent) => {
+  // Form inputs ke liye states
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: ""
+  });
+
+  // Handle Input Changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // ASLI DATABASE SUBMISSION LOGIC
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setErrorMsg("");
+
+    try {
+      // Supabase me data insert kar rahe hain
+      const { error } = await supabase
+        .from('contact_inquiries')
+        .insert([
+          { 
+            name: formData.name, 
+            phone: formData.phone, 
+            email: formData.email, 
+            message: formData.message 
+          }
+        ]);
+
+      if (error) throw error;
+
+      // Agar success ho gaya
       setIsSent(true);
-      // Reset form after 3 seconds
+      setFormData({ name: "", phone: "", email: "", message: "" }); // Form khali kar do
+      
+      // 3 second baad wapas normal state me le aao
       setTimeout(() => setIsSent(false), 3000);
-    }, 1500);
+
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      setErrorMsg("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -109,24 +148,32 @@ export default function ContactPage() {
             {/* Form */}
             <div className="mb-10">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Send an Enquiry</h2>
+              
+              {/* Error Message Display */}
+              {errorMsg && (
+                <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg flex items-center gap-2 text-sm">
+                  <AlertCircle size={16} /> {errorMsg}
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
-                    <input required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition" placeholder="John Doe" />
+                    <input required name="name" value={formData.name} onChange={handleChange} type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition" placeholder="John Doe" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                    <input required type="tel" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition" placeholder="+91 xxxxx xxxxx" />
+                    <input required name="phone" value={formData.phone} onChange={handleChange} type="tel" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition" placeholder="+91 xxxxx xxxxx" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                  <input required type="email" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition" placeholder="john@example.com" />
+                  <input required name="email" value={formData.email} onChange={handleChange} type="email" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition" placeholder="john@example.com" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Your Message / Query</label>
-                  <textarea required rows={4} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition resize-none" placeholder="I want to know about the diploma course..."></textarea>
+                  <textarea required name="message" value={formData.message} onChange={handleChange} rows={4} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition resize-none" placeholder="I want to know about the diploma course..."></textarea>
                 </div>
                 
                 <button 
@@ -137,9 +184,9 @@ export default function ContactPage() {
                   }`}
                 >
                   {isSubmitting ? (
-                    <span className="animate-pulse">Sending...</span>
+                    <span className="animate-pulse">Sending to Database...</span>
                   ) : isSent ? (
-                    <><CheckCircle2 size={20} /> Message Sent Successfully!</>
+                    <><CheckCircle2 size={20} /> Saved in Database!</>
                   ) : (
                     <><Send size={20} /> Send Message</>
                   )}

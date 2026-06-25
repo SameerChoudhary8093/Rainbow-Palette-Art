@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, BookOpen, UploadCloud, CreditCard, ArrowRight, ArrowLeft, CheckCircle2, Search, ClipboardList, ShieldCheck, Clock, FileText } from "lucide-react";
+import { User, BookOpen, UploadCloud, CreditCard, ArrowRight, ArrowLeft, CheckCircle2, Search, ClipboardList, ShieldCheck, Clock, FileText, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase"; // Supabase client connection
 
 const steps = [
   { id: 1, name: "Student Details", icon: User },
@@ -12,7 +13,7 @@ const steps = [
   { id: 4, name: "Payment & Finish", icon: CreditCard },
 ];
 
-// Mock Applications Database for Status Tracking (Point 11)
+// Mock Applications Database for Status Tracking (Point 11) - Fallback
 const applicationsDB: Record<string, any> = {
   "APP-2026-9912": {
     studentName: "Aarav Sharma",
@@ -51,6 +52,8 @@ export default function ApplyPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [generatedAppId, setGeneratedAppId] = useState("");
 
   // Status Tracking States
   const [trackId, setTrackId] = useState("");
@@ -72,16 +75,48 @@ export default function ApplyPage() {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // ASLI ADMISSION SUBMISSION LOGIC
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
+    setErrorMsg("");
+
+    try {
+      const randNum = Math.floor(1000 + Math.random() * 9000);
+      const appRef = `APP-2026-${randNum}`;
+
+      const { error } = await supabase
+        .from('admissions')
+        .insert([
+          {
+            application_id: appRef,
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            age: parseInt(formData.age) || 18,
+            course: formData.course,
+            batch: formData.batch,
+            status: "Submitted",
+            fees: "Paid (₹15,500)",
+            remarks: "Application and payment received successfully. Verification in progress."
+          }
+        ]);
+
+      if (error) throw error;
+
+      setGeneratedAppId(appRef);
       setIsSuccess(true);
-    }, 2500);
+    } catch (err: any) {
+      console.error("Error submitting application:", err);
+      setErrorMsg(err?.message || "Failed to submit application. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const handleTrackSearch = (e: React.FormEvent) => {
+  // ASLI TRACK SEARCH LOGIC (DB + Static fallback)
+  const handleTrackSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!trackId.trim()) {
       setTrackError("Please enter an Application ID");
@@ -91,15 +126,41 @@ export default function ApplyPage() {
     setTrackResult(null);
     setTrackError("");
 
-    setTimeout(() => {
+    try {
       const searchId = trackId.trim().toUpperCase();
-      if (applicationsDB[searchId]) {
+      
+      // Supabase database lookup
+      const { data, error } = await supabase
+        .from('admissions')
+        .select('*')
+        .eq('application_id', searchId)
+        .maybeSingle(); // Does not fail if 0 rows returned
+
+      if (error) throw error;
+
+      if (data) {
+        setTrackResult({
+          studentName: `${data.first_name} ${data.last_name}`,
+          course: data.course,
+          batch: data.batch,
+          submissionDate: new Date(data.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }),
+          status: data.status,
+          documents: "Verified",
+          fees: data.fees,
+          remarks: data.remarks
+        });
+      } else if (applicationsDB[searchId]) {
+        // Fallback to static mock database
         setTrackResult(applicationsDB[searchId]);
       } else {
         setTrackError(`Application ID ${searchId} not found in our records.`);
       }
+    } catch (err: any) {
+      console.error("Error tracking status:", err);
+      setTrackError(err?.message || "Something went wrong while retrieving status. Please try again.");
+    } finally {
       setTrackSearching(false);
-    }, 1200);
+    }
   };
 
   if (isSuccess) {
@@ -112,18 +173,27 @@ export default function ApplyPage() {
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Application Submitted!</h2>
           <p className="text-gray-600 mb-8">
             Your admission application and payment were simulated successfully. Welcome to Rainbow Palette Academy, {formData.firstName || "Student"}! <br/>
-            Your temporary application reference code is <strong className="font-mono text-purple-600">APP-2026-7731</strong>. You can use this code to track your status.
+            Your temporary application reference code is <strong className="font-mono text-purple-600">{generatedAppId}</strong>. You can use this code to track your status.
           </p>
           <div className="flex gap-4">
             <button 
               onClick={() => {
-                setTrackId("APP-2026-7731");
+                setTrackId(generatedAppId);
                 setIsSuccess(false);
                 setActiveMode("track");
                 // Trigger search simulation
                 setTrackSearching(true);
                 setTimeout(() => {
-                  setTrackResult(applicationsDB["APP-2026-7731"]);
+                  setTrackResult({
+                    studentName: `${formData.firstName} ${formData.lastName}`,
+                    course: formData.course,
+                    batch: formData.batch,
+                    submissionDate: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }),
+                    status: "Submitted",
+                    documents: "Verified",
+                    fees: "Paid (₹15,500)",
+                    remarks: "Application and payment received successfully. Verification in progress."
+                  });
                   setTrackSearching(false);
                 }, 1000);
               }}
@@ -303,6 +373,11 @@ export default function ApplyPage() {
                   {currentStep === 4 && (
                     <div className="space-y-6">
                       <h3 className="text-2xl font-bold text-gray-900 mb-6">Review & Complete Payment</h3>
+                      {errorMsg && (
+                        <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-xl flex items-center gap-2 text-sm">
+                          <AlertCircle size={16} /> {errorMsg}
+                        </div>
+                      )}
                       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-150 space-y-4 text-sm">
                         <div className="flex justify-between items-center pb-2 border-b border-gray-200">
                           <span className="text-gray-500 font-semibold">Course selected</span>
